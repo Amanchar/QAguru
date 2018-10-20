@@ -7,7 +7,6 @@ public class AnuitetCredit {
     double paymentPerMonth;
     double interestPerMonth;
     double paymentBody;
-    //double loan = 100000;
     int paymentNumber = 0;
     double averagePayment=0;
     double averagePaymentTotal;
