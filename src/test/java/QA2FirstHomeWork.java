@@ -1,7 +1,7 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class QA2_1stHomeWork {
+public class QA2FirstHomeWork {
 
     @Test
     public void credit() {
