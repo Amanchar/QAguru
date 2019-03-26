@@ -1,3 +1,5 @@
+package firstHomeWork;
+
 public class AnnuityCredit {
     Main values = new Main();
 
@@ -8,6 +10,7 @@ public class AnnuityCredit {
     double periods = values.months;
 
     double totalSumToPay = 0;
+    double roundedTotalSumToPay;
     int interestSelector;
 
     double balance = values.loan;
@@ -38,6 +41,7 @@ public class AnnuityCredit {
 
             paymentBody = totalPaymentPerMonth - paymentInterest;
             totalSumToPay = totalSumToPay + totalPaymentPerMonth;
+            roundedTotalSumToPay = Math.round(totalSumToPay * 100)/100.0;
             values.loan = values.loan - paymentBody;
         }
     }
