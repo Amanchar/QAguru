@@ -1,0 +1,76 @@
+package ThirdHomework.Pages;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
+
+public class DressesPage {
+    BaseFunc baseFunc;
+    private final By LOADER = By.xpath("(.//img/@src)[14]");
+    private final By FILTER_COLOR = By.name("layered_id_attribute_group_13");
+
+    public final By FILTERED_ELEMENTS = By.xpath(".//div[@class='product-container']");
+
+    private final By COLOR_PICK = By.xpath(".//a[@class='color_pick']");
+    private final By ITEM_NAME = By.xpath(".//a[@class='product-name']");
+    private final By FIRST_ITEM = By.xpath(".//*[contains(@class,'first-item-of-tablet-line')]/div");
+    private final By SECOND_ITEM = By.xpath("(.//*[contains(@class,'ajax_block_product')]/div)[2]");
+
+    private final By BUTTON_CONTAINER =By.xpath(".//div[@class='right-block']");
+    private final By ADD_TO_CART = By.xpath("(.//*[contains(@class,'first-item-of-tablet-line')]/div/div/div/a/span)[2]");
+    private final By ADD_TO_CART_2 = By.xpath("((.//*[contains(@class,'ajax_block_product')]/div)[2]/div/div/a/span)[2]");
+
+    public DressesPage(BaseFunc baseFunc) {
+        this.baseFunc = baseFunc;
+    }
+
+        public DresesPopUp addToCartFirstItem() {
+        baseFunc.getElement(FIRST_ITEM).click();
+            baseFunc.waitTime();
+        baseFunc.getElement(ADD_TO_CART).click();
+        return new DresesPopUp(baseFunc);
+    }
+
+    public DresesPopUp addToCartSecondItem() {
+        WebElement secondItem = baseFunc.getElement(SECOND_ITEM);
+        baseFunc.moveToElement(secondItem).perform();
+        baseFunc.waitTime();
+        baseFunc.getElement(ADD_TO_CART_2).click();
+        return new DresesPopUp(baseFunc);
+    }
+
+    public DressesPage checkColorBox() {
+        baseFunc.getElement(FILTER_COLOR).click();
+        baseFunc.waitForElementDisappear(LOADER);
+        return new DressesPage(baseFunc);
+    }
+
+    public boolean isColorPresent(String orangeColor) {
+        boolean isColorPresent = false;
+        List<WebElement> items = baseFunc.getElements(FILTERED_ELEMENTS);
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).findElement(COLOR_PICK).getAttribute("style").contains(orangeColor)) {
+                isColorPresent = true;
+                break;
+            }
+        }
+        return isColorPresent;
+    }
+
+    public WebElement getProductByName(String name) {
+        List<WebElement> products = baseFunc.getElements(FILTERED_ELEMENTS);
+        for (WebElement we : products
+        ) {
+            if (we.findElement(ITEM_NAME).getText().contains(name)) {
+                return we;
+            }
+        }
+        return null;
+    }
+
+    public ProductPage goProductPage(String name) {
+        getProductByName(name).findElement(ITEM_NAME).click();
+        return new ProductPage(baseFunc);
+    }
+}

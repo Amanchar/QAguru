@@ -1,4 +1,4 @@
-package secondHomeWork;
+package SecondHomework;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;

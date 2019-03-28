@@ -1,4 +1,4 @@
-package firstHomeWork;
+package FirstHomework;
 
 public class AnnuityCredit {
     Main values = new Main();

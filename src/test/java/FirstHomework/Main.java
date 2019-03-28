@@ -1,4 +1,4 @@
-package firstHomeWork;
+package FirstHomework;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
