@@ -6,8 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="qa2" />
-        <module name="QA2firstHomeWork" />
+        <module name="QAguru" />
       </profile>
     </annotationProcessing>
   </component>
