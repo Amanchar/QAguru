@@ -1,12 +1,13 @@
+/*
 package FifthHomework;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import model.Response;
+//import model.Response;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
-import pages.*;
+//import pages.*;
 
 import java.util.Map;
 
@@ -15,22 +16,22 @@ public class reservationTicketStepDefs {
     public final By REGISTRATION_FORM = By.xpath(".//div[@class='fullForm']");
     private final By SEAT_SELECTOR = By.id("seats");
 
-    private BaseFunc baseFunc = new BaseFunc();
+    //private BaseFunc baseFunc = new BaseFunc();
     private final String HOME_PAGE = "http://qaguru.lv:8090/tickets/";
     private String departure_city;
     private String destination_city;
     private Integer seatNumber;
 
     private UserData user = new UserData();
-    private HomePage homePage;
+    //private HomePage homePage;
 
     String reservationNumber;
 
-    RegistrationPage registrationPage = new RegistrationPage(baseFunc);
-    SeatPage seatPage = new SeatPage(baseFunc);
+    //RegistrationPage registrationPage = new RegistrationPage(baseFunc);
+    //SeatPage seatPage = new SeatPage(baseFunc);
 
     private ReservationRequester requester = new ReservationRequester();
-    private Response response;
+    //private Response response;
 
     @Given("departure airport (.*)")
     public void set_departure_airport(String departure_city) {
@@ -59,17 +60,21 @@ public class reservationTicketStepDefs {
         this.seatNumber = seatNumber;
     }
 
-    @Given("we're on a home page")
+    */
+/*@Given("we're on a home page")
     public void home_page() {
         baseFunc.goToPage(HOME_PAGE);
         homePage = new HomePage(baseFunc);
-    }
+    }*//*
 
-    @When("we're selecting airports")
+
+    */
+/*@When("we're selecting airports")
     public void selecting_airport() {
         homePage.selectDepartureAirport("RIX");
         homePage.selectArrivalAirport("MEL");
-    }
+    }*//*
+
 
     @When("we're pressing GoGoGo button")
     public void pressing_button() {
@@ -155,3 +160,4 @@ public class reservationTicketStepDefs {
     public void checking_if_reservation_deleted() {
     }
 }
+*/

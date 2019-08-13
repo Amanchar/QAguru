@@ -24,13 +24,14 @@ public class BaseFunc {
 
     }
 
-    public void waitTime(){
+    public void waitTime() {
         try {
             Thread.sleep(2000);
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();
         }
     }
+
     public Actions moveToElement(WebElement locator) {
         return action.moveToElement(locator);
     }
@@ -53,9 +54,9 @@ public class BaseFunc {
         return browser.findElements(locator);
     }
 
-    public void waitForElement(By locator) {
-        WebDriverWait wait = new WebDriverWait(browser, 2);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    public void waitForElementToBeClickable(By locator) {
+        WebDriverWait wait = new WebDriverWait(browser, 30);
+        wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
 
     public void waitForElementDisappear(By locator) {

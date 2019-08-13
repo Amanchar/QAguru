@@ -1,7 +1,5 @@
 package ThirdHomework;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ThirdHomework.Pages.*;
 
@@ -18,7 +16,18 @@ public class DressesTest {
         MainPage mainPage = new MainPage(baseFunc);
 
         DressesPage dressesPage = mainPage.goToDressesPage();
-        baseFunc.waitTime();
+        SummerDressesPage summerDressesPage = dressesPage.goSummerDressesPage();
+
+        System.out.print(summerDressesPage.getElementInfoTest());
+
+        baseFunc.waitForElementToBeClickable(summerDressesPage.LIST_VIEW);
+
+        baseFunc.getElement(summerDressesPage.LIST_VIEW).click();
+
+
+        //System.out.println("List contains: " + dressesPage.getElementInfo(dressesPage.COLOR_PICK).size());
+        // System.out.println(dressesPage.getElementInfoByAttribute(dressesPage.COLOR_PICK,"style"));
+        /*baseFunc.waitTime();
         dressesPage.checkColorBox();
 
         Assertions.assertTrue(dressesPage.isColorPresent("background: rgb(243, 156, 17);"), "There is no that color!");
@@ -47,12 +56,12 @@ public class DressesTest {
 
         checkout.getSelectedProductPrices();
         checkout.convertSelectedProductPricesToDouble();
-        Assertions.assertEquals(checkout.totalPrice(), checkout.sumOfSelectedProducts(), "not equals!!!");
+        Assertions.assertEquals(checkout.totalPrice(), checkout.sumOfSelectedProducts(), "not equals!!!");*/
     }
 
-    @AfterEach
+    /*@AfterEach
     public void closeBrowser() {
         baseFunc.closeBrowser();
-    }
+    }*/
 
 }
