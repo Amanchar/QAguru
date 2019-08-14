@@ -8,22 +8,25 @@ import java.util.List;
 public class ProductPage {
     private BaseFunc baseFunc;
 
-    private final By ORANGE_COLOR = By.id("color_13");
-    private final By PRODUCT_DESCRIPTION = By.xpath(".//div[@class='box-info-product']");
+    private final By COLOR_PICK_LIST = By.xpath(".//a[contains(@class,'color_pick')]");
 
     public ProductPage(BaseFunc baseFunc) {
         this.baseFunc = baseFunc;
     }
 
-    public boolean isColorPresent(String orangeColor) {
-        boolean isColorPresent = false;
-        List<WebElement> items = baseFunc.getElements(PRODUCT_DESCRIPTION);
-        for (int i = 0; i < items.size(); i++) {
-            if (items.get(i).findElement(ORANGE_COLOR).getAttribute("style").contains(orangeColor)) {
-                isColorPresent = true;
-                break;
+    public boolean isColorPresent() {
+        List<WebElement> items = baseFunc.getElements(COLOR_PICK_LIST);
+        System.out.printf("Elements count:  %d ", items.size());
+
+        for (WebElement item : items) {
+            //String str = item.getAttribute("style");
+            System.out.printf("Attributes:  %s ", item.getAttribute("style"));
+
+            if (item.getAttribute("style").contains("background: rgb(241, 196, 15);")) {
+                //isColorPresent = true;
+                return true;
             }
         }
-        return isColorPresent;
+        return false;
     }
 }

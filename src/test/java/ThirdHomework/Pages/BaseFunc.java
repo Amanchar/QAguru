@@ -13,7 +13,7 @@ import java.util.List;
 
 
 public class BaseFunc {
-    WebDriver browser;
+    public WebDriver browser;
     Actions action;
 
     public BaseFunc() {
