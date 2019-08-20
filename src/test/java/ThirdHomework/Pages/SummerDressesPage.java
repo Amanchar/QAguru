@@ -9,7 +9,11 @@ import java.util.List;
 import java.util.Map;
 
 public class SummerDressesPage {
-    BaseFunc baseFunc;
+    private BaseFunc baseFunc;
+
+    public final By FIRST_PRODUCTS_IMAGE = By.xpath(".//div[@class='product-container']");
+    public final By FIRST_PRODUCTS_ADD = By.xpath("(.//a[contains(@title,'Add to cart')])[1]");
+    public final By FIRST_PRODUCT_PRICE = By.xpath("(.//*[@class='price product-price'])[2]");
 
     public final By PRODUCTS = By.xpath(".//div[@class='product-container']");
     public final By COLOR_PICK = By.xpath(".//a[@class='color_pick']");
@@ -104,17 +108,23 @@ public class SummerDressesPage {
 
             webElementsStrings.clear();
 
-            if (counter == elParent.size()) {
-                return true;
-            }
         }
-
-        return false;
+        return counter == elParent.size();
     }
 
-    public ProductPage goToProductPage(int item) {
-        List<WebElement> webElements = baseFunc.getElements(MORE_BTN);
-        webElements.get(item).click();
-        return new ProductPage(baseFunc);
+
+
+    public PopUp goToPopUp() {
+
+        WebElement firstProductImage = baseFunc.getElement(FIRST_PRODUCTS_IMAGE);
+        WebElement firstProductAddToCart = baseFunc.getElement(FIRST_PRODUCTS_ADD);
+
+        baseFunc.moveToElement(firstProductImage).perform();
+        baseFunc.waitForElementToBeClickable(FIRST_PRODUCTS_ADD);
+        baseFunc.moveToElement(firstProductAddToCart).click().perform();
+
+       /* List<WebElement> webElements = baseFunc.getElements(MORE_BTN);
+        webElements.get(item).click();*/
+        return new PopUp(baseFunc);
     }
 }

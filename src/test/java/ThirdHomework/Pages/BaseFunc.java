@@ -55,14 +55,20 @@ public class BaseFunc {
     }
 
     public void waitForElementToBeClickable(By locator) {
-        WebDriverWait wait = new WebDriverWait(browser, 30);
+        WebDriverWait wait = new WebDriverWait(browser, 5);
         wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
 
     public void waitForElementDisappear(By locator) {
-        WebDriverWait wait = new WebDriverWait(browser, 2);
+        WebDriverWait wait = new WebDriverWait(browser, 5);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
     }
+
+    public double getItemsPrice(By locator) {
+        WebElement el = browser.findElement(locator);
+        return Double.parseDouble(el.getText().substring(1));
+    }
+
 
     public void closeBrowser() {
         browser.close();

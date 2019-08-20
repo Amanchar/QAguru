@@ -4,22 +4,24 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 public class MainPage {
-    BaseFunc baseFunc;
+    private BaseFunc baseFunc;
 
-    private final By WOMEN = By.xpath("(.//a[contains(@class, 'sf-with-')])[1]");
-    private final By DRESSES = By.xpath("(.//a[contains(@class, 'sf-with-')])[3]");
+    private final By DRESSES = By.xpath("(.//a[contains(@title, 'Dresses')])[5]");
+    private final By SUMMER_DRESSES = By.xpath("(.//a[contains(@title, 'Summer Dresses')])[2]");
+
 
     public MainPage(BaseFunc baseFunc) {
         this.baseFunc = baseFunc;
     }
 
-    public DressesPage goToDressesPage() {
-        WebElement linkWomen = baseFunc.getElement(WOMEN);
+    public SummerDressesPage goToSummerDressesPage() {
         WebElement linkDresses = baseFunc.getElement(DRESSES);
-        baseFunc.moveToElement(linkWomen).perform();
-        baseFunc.waitTime();
-        baseFunc.moveToElement(linkDresses).click().perform();
+        WebElement linkSummerDresses = baseFunc.getElement(SUMMER_DRESSES);
 
-        return new DressesPage(baseFunc);
+        baseFunc.moveToElement(linkDresses).perform();
+        baseFunc.waitForElementToBeClickable(SUMMER_DRESSES);
+        baseFunc.moveToElement(linkSummerDresses).click().perform();
+
+        return new SummerDressesPage(baseFunc);
     }
 }
