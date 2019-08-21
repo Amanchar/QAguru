@@ -1,14 +1,12 @@
 package ThirdHomework;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 
 import org.junit.jupiter.api.Test;
 import ThirdHomework.Pages.*;
-import org.openqa.selenium.WebElement;
 
+import java.text.DecimalFormat;
 import java.util.Set;
 
 
@@ -22,77 +20,60 @@ public class DressesTest {
         baseFunc.goToPage(MAIN_PAGE);
         MainPage mainPage = new MainPage(baseFunc);
 
+        // Go to summer dresses page:
         SummerDressesPage summerDressesPage = mainPage.goToSummerDressesPage();
-        //SummerDressesPage summerDressesPage = dressesPage.goSummerDressesPage();
-        double price = baseFunc.getItemsPrice(summerDressesPage.FIRST_PRODUCT_PRICE);
-        System.out.println("First item price is: \n" + baseFunc.getItemsPrice(summerDressesPage.FIRST_PRODUCT_PRICE));
-        //WebElement element = baseFunc.browser.findElement(By.linkText("Information"));
-
-        System.out.println("All items contain yellow: " + summerDressesPage.checkIfAllItemsHaveColor("Yellow"));
-
+        // Scroll down and pause for a while:
         js.executeScript("arguments[0].scrollIntoView();", baseFunc.browser.findElement(summerDressesPage.CATEGORY));
         Thread.sleep(1000);
-        PopUp popUp = summerDressesPage.goToPopUp();
-        System.out.println("Layer is visible: " + popUp.checkLayerVisible(PopUp.POPUP_LAYER));
+        // Get actual displayed item count:
+        int itemDisplayed = baseFunc.getElements(summerDressesPage.PRODUCTS).size();
+        // Get counter value displayed on page:
+        int itemCounter = (int) summerDressesPage.getCounter(summerDressesPage.ITEM_COUNTER);
+        // Output to console received values and
+        // assert actual and displayed counter values:
+        System.out.printf("Items actually displayed: %d\n" +
+                "Items counter value:      %d\n\n", itemDisplayed, itemCounter);
+        Assertions.assertEquals(itemDisplayed, itemCounter, "Values are not equal!");
+        // Output to console first item price value and
+        // save first item price value to double variable:
 
-        //System.out.println("PopUp > First item price is: \n" + baseFunc.browser.getWindowHandle());
+        baseFunc.waitForElementToBeVisible(summerDressesPage.FIRST_PRODUCT_PRICE);
+        System.out.printf("First item price is: %s\n\n", baseFunc.getItemsDigit(summerDressesPage.FIRST_PRODUCT_PRICE));
+        double price = baseFunc.getItemsDigit(summerDressesPage.FIRST_PRODUCT_PRICE);
+        // Output to console if all displayed items contain yellow color in color picker:
+        System.out.println("All items contain yellow:   " + summerDressesPage.checkIfAllItemsHaveColor("Yellow"));
 
-        String popup = baseFunc.browser.getWindowHandle();
-        Set<String> windows = baseFunc.browser.getWindowHandles();
-        for (String x : windows
-        ) {
-            if (!x.equals(popup)){
-                baseFunc.browser.switchTo().window(x);
-                break;
-            }
-                //System.out.println(x);
-        }
+        // Flow over first product, wait until "add to cart" button show up and click it:
+        PopUp popUp = summerDressesPage.goToPopUp(summerDressesPage.FIRST_PRODUCTS_IMAGE, summerDressesPage.FIRST_PRODUCTS_ADD);
+        // Checks and output to console if PopUp layer is visible:
+        System.out.println("Layer is visible:           " + popUp.checkLayerVisible(PopUp.POPUP_LAYER));
+        // Wait until price element is visible, get price and write it to double var:
         baseFunc.waitForElementToBeClickable(PopUp.POPUP_LAYER_PRODUCT_PRICE);
+        System.out.printf("First item price is: %s\n", baseFunc.getItemsDigit(PopUp.POPUP_LAYER_PRODUCT_PRICE));
+        double price2 = baseFunc.getItemsDigit(PopUp.POPUP_LAYER_PRODUCT_PRICE);
+        // Assert dresses page and popup layer displayed price values of item:
+        Assertions.assertEquals(price, price2, "Prices are not equal!");
+        // close pop up layer:
+        popUp.closePopUpLayer();
 
-        System.out.println("PopUp > First item price is: \n" + baseFunc.getItemsPrice(PopUp.POPUP_LAYER_PRODUCT_PRICE));
+        ProductPage productPage = summerDressesPage.goToProductPage();
+        System.out.println("Product page contain color: " + productPage.isColorPresent());
+        SummerDressesPage summerDressesPage1 = productPage.goToSummerDressesPage();
 
-        double price2 = baseFunc.getItemsPrice(PopUp.POPUP_LAYER_PRODUCT_PRICE);
+        DecimalFormat df = new DecimalFormat("#.00");
 
-        Assertions.assertEquals(price, price2, "not equals!!!");
+        float price3 = (float)baseFunc.getItemsDigit(summerDressesPage.SECOND_PRODUCT_PRICE);
+        System.out.println("Second item price is: " + df.format(price3));
+        summerDressesPage1.goToPopUp(summerDressesPage1.SECOND_PRODUCTS_IMAGE, summerDressesPage1.SECOND_PRODUCTS_ADD);
+        baseFunc.waitForElementToBeVisible(PopUp.POPUP_LAYER_PRODUCT_PRICE);
+        float result = (float)(price + price3);
 
-        //baseFunc.waitForElementToBeClickable(summerDressesPage.LIST_VIEW);
+        float totalPrice = Float.parseFloat(baseFunc.getElement(summerDressesPage.TOTAL_PRICE).getText().substring(1));
+        System.out.printf("Total price is: %s\n" +
+                "Calc total:     %s", Float.parseFloat(baseFunc.browser.findElement(summerDressesPage.TOTAL_PRICE).getText().substring(1)), result);
 
-        //baseFunc.getElement(summerDressesPage.LIST_VIEW).click();
-        // ProductPage productPage = summerDressesPage.goToProductPage(0);
-        //System.out.println(productPage.isColorPresent());
+        Assertions.assertEquals(totalPrice, result,"Are not equal!");
 
-        //System.out.println("List contains: " + dressesPage.getElementInfo(dressesPage.COLOR_PICK).size());
-        // System.out.println(dressesPage.getElementInfoByAttribute(dressesPage.COLOR_PICK,"style"));
-        /*baseFunc.waitTime();
-        dressesPage.checkColorBox();
-
-        Assertions.assertTrue(dressesPage.isColorPresent("background: rgb(243, 156, 17);"), "There is no that color!");
-
-        ProductPage productPage = dressesPage.goProductPage("Printed Dress");
-        Assertions.assertTrue(productPage.isColorPresent("background: rgb(243, 156, 17);"), "There is no that color!");
-        baseFunc.waitTime();
-
-        baseFunc.navigateBack();
-        baseFunc.waitForElement(dressesPage.FILTERED_ELEMENTS);
-
-
-        baseFunc.waitTime();
-
-        DresesPopUp dresesPopUp = dressesPage.addToCartFirstItem();
-        baseFunc.waitTime();
-
-        dresesPopUp.closePopUp();
-        dresesPopUp = dressesPage.addToCartSecondItem();
-        baseFunc.waitTime();
-
-        CheckoutPage checkout = dresesPopUp.proceedToCheckout();
-
-
-        baseFunc.waitTime();
-
-        checkout.getSelectedProductPrices();
-        checkout.convertSelectedProductPricesToDouble();
-        Assertions.assertEquals(checkout.totalPrice(), checkout.sumOfSelectedProducts(), "not equals!!!");*/
     }
 
     /*@AfterEach

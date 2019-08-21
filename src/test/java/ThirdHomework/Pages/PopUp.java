@@ -10,6 +10,7 @@ public class PopUp {
 
     public static By POPUP_LAYER = By.id("layer_cart");
     public static By POPUP_LAYER_PRODUCT_PRICE = By.id("layer_cart_product_price");
+    private static By POPUP_CLOSE = By.xpath(".//span[@class='cross']");
 
 
     PopUp(BaseFunc baseFunc) {
@@ -21,5 +22,7 @@ public class PopUp {
         return layerElement.size() != 0;
     }
 
-
+    public void closePopUpLayer() {
+        baseFunc.getElement(POPUP_CLOSE).click();
+    }
 }

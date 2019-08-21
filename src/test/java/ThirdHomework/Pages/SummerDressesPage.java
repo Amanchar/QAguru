@@ -11,18 +11,33 @@ import java.util.Map;
 public class SummerDressesPage {
     private BaseFunc baseFunc;
 
-    public final By FIRST_PRODUCTS_IMAGE = By.xpath(".//div[@class='product-container']");
+    public final By FIRST_PRODUCTS_IMAGE = By.xpath("(.//div[@class='product-container'])[1]");
     public final By FIRST_PRODUCTS_ADD = By.xpath("(.//a[contains(@title,'Add to cart')])[1]");
+    public final By FIRST_PRODUCTS_MORE = By.xpath("(.//a[contains(@class,'button lnk_view')])[1]");
+
+    public final By SECOND_PRODUCTS_IMAGE = By.xpath("(.//div[@class='product-container'])[2]");
+    public final By SECOND_PRODUCTS_ADD = By.xpath("(.//a[contains(@title,'Add to cart')])[2]");
+    public final By SECOND_PRODUCTS_MORE = By.xpath("(.//a[contains(@class,'button lnk_view')])[2]");
+
+    public final By THIRD_PRODUCTS_IMAGE = By.xpath("(.//div[@class='product-container'])[3]");
+    public final By THIRD_PRODUCTS_ADD = By.xpath("(.//a[contains(@title,'Add to cart')])[3]");
+    public final By THIRD_PRODUCTS_MORE = By.xpath("(.//a[contains(@class,'button lnk_view')])[3]");
+
     public final By FIRST_PRODUCT_PRICE = By.xpath("(.//*[@class='price product-price'])[2]");
+    public final By SECOND_PRODUCT_PRICE = By.xpath("(.//*[@class='price product-price'])[4]");
+    public final By TOTAL_PRICE = By.xpath(".//*[contains(@class,'block_products_total')]");
+
 
     public final By PRODUCTS = By.xpath(".//div[@class='product-container']");
+    public final By ITEM_COUNTER = By.xpath("(.//div[@class='product-count'])[1]");
+
     public final By COLOR_PICK = By.xpath(".//a[@class='color_pick']");
     public final By LIST_VIEW = By.id("list");
     public final By CATEGORY = By.xpath(".//span[@class='cat-name']");
     public final By MORE_BTN = By.xpath(".//a[contains(@class,'button lnk_view')]/span");
 
 
-    public SummerDressesPage(BaseFunc baseFunc) {
+    SummerDressesPage(BaseFunc baseFunc) {
         this.baseFunc = baseFunc;
     }
 
@@ -112,19 +127,34 @@ public class SummerDressesPage {
         return counter == elParent.size();
     }
 
+    public double getCounter(By locator) {
+        WebElement el = baseFunc.browser.findElement(locator);
+        return Double.parseDouble(el.getText().substring(17, el.getText().length() - 6));
+    }
 
-
-    public PopUp goToPopUp() {
-
-        WebElement firstProductImage = baseFunc.getElement(FIRST_PRODUCTS_IMAGE);
-        WebElement firstProductAddToCart = baseFunc.getElement(FIRST_PRODUCTS_ADD);
+    public PopUp goToPopUp(By locator, By locator2) {
+        WebElement firstProductImage = baseFunc.getElement(locator);
+        WebElement firstProductAddToCart = baseFunc.getElement(locator2);
 
         baseFunc.moveToElement(firstProductImage).perform();
-        baseFunc.waitForElementToBeClickable(FIRST_PRODUCTS_ADD);
+        baseFunc.waitForElementToBeClickable(locator2);
         baseFunc.moveToElement(firstProductAddToCart).click().perform();
 
        /* List<WebElement> webElements = baseFunc.getElements(MORE_BTN);
         webElements.get(item).click();*/
         return new PopUp(baseFunc);
     }
+
+    public ProductPage goToProductPage() {
+        WebElement firstProductImage = baseFunc.getElement(FIRST_PRODUCTS_IMAGE);
+        WebElement firstProductAddToCart = baseFunc.getElement(FIRST_PRODUCTS_MORE);
+
+        baseFunc.moveToElement(firstProductImage).perform();
+        baseFunc.waitForElementToBeClickable(FIRST_PRODUCTS_MORE);
+        baseFunc.moveToElement(firstProductAddToCart).click().perform();
+
+        return new ProductPage(baseFunc);
+    }
+
+
 }
