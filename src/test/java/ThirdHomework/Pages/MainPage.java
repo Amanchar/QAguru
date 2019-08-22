@@ -8,7 +8,7 @@ public class MainPage {
 
     private final By DRESSES = By.xpath("(.//a[contains(@title, 'Dresses')])[5]");
     private final By SUMMER_DRESSES = By.xpath("(.//a[contains(@title, 'Summer Dresses')])[2]");
-
+    private final By EVENING_DRESSES = By.xpath("(.//a[contains(@title, 'Evening Dresses')])[2]");
 
     public MainPage(BaseFunc baseFunc) {
         this.baseFunc = baseFunc;
@@ -16,7 +16,7 @@ public class MainPage {
 
     public SummerDressesPage goToSummerDressesPage() {
         WebElement linkDresses = baseFunc.getElement(DRESSES);
-        WebElement linkSummerDresses = baseFunc.getElement(SUMMER_DRESSES);
+        WebElement linkSummerDresses = baseFunc.getElement(EVENING_DRESSES);
 
         baseFunc.moveToElement(linkDresses).perform();
         baseFunc.waitForElementToBeClickable(SUMMER_DRESSES);

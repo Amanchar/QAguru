@@ -10,6 +10,7 @@ public class ProductPage {
 
     private final By COLOR_PICK_LIST = By.xpath(".//a[contains(@class,'color_pick')]");
     private final By DRESSES_PAGE_LINK = By.xpath("(.//a[contains(@title,'Summer Dresses')])[3]");
+    public final By PRODUCT_PRICE = By.id("our_price_display");
 
     ProductPage(BaseFunc baseFunc) {
         this.baseFunc = baseFunc;

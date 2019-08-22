@@ -1,21 +1,26 @@
 package ThirdHomework;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 
 import org.junit.jupiter.api.Test;
 import ThirdHomework.Pages.*;
+import org.openqa.selenium.WebElement;
 
 import java.text.DecimalFormat;
-import java.util.Set;
 
 
 public class DressesTest {
     private BaseFunc baseFunc = new BaseFunc();
+    private JavascriptExecutor js = (JavascriptExecutor) baseFunc.browser;
+
+    private final By CART = By.xpath(".//a[contains(@title,'View my shopping cart')]");
+    private final By CART_TOTAL = By.xpath(".//span[contains(@class,'price cart_block_total')]");
 
     @Test
     void automationTest() throws InterruptedException {
-        JavascriptExecutor js = (JavascriptExecutor) baseFunc.browser;
         String MAIN_PAGE = "http://automationpractice.com/index.php";
         baseFunc.goToPage(MAIN_PAGE);
         MainPage mainPage = new MainPage(baseFunc);
@@ -26,59 +31,52 @@ public class DressesTest {
         js.executeScript("arguments[0].scrollIntoView();", baseFunc.browser.findElement(summerDressesPage.CATEGORY));
         Thread.sleep(1000);
         // Get actual displayed item count:
-        int itemDisplayed = baseFunc.getElements(summerDressesPage.PRODUCTS).size();
+        int itemDisplayed = baseFunc.getElements(summerDressesPage.PRODUCT_ITEMS).size();
         // Get counter value displayed on page:
-        int itemCounter = (int) summerDressesPage.getCounter(summerDressesPage.ITEM_COUNTER);
+        int itemCounter = summerDressesPage.getCounterValue(summerDressesPage.PRODUCT_COUNTER);
         // Output to console received values and
         // assert actual and displayed counter values:
         System.out.printf("Items actually displayed: %d\n" +
                 "Items counter value:      %d\n\n", itemDisplayed, itemCounter);
-        Assertions.assertEquals(itemDisplayed, itemCounter, "Values are not equal!");
+        Assertions.assertEquals(itemDisplayed, itemCounter, "Page counter and actual product count are not equal!");
+
+
         // Output to console first item price value and
         // save first item price value to double variable:
 
+        String color = "Red";
         baseFunc.waitForElementToBeVisible(summerDressesPage.FIRST_PRODUCT_PRICE);
-        System.out.printf("First item price is: %s\n\n", baseFunc.getItemsDigit(summerDressesPage.FIRST_PRODUCT_PRICE));
-        double price = baseFunc.getItemsDigit(summerDressesPage.FIRST_PRODUCT_PRICE);
+        System.out.printf("Test: %s\n", summerDressesPage.getDisplayedProductItemPrices(summerDressesPage.PRODUCT_ITEM_PRICES));
+
+
+
+        double price = baseFunc.getItemPrice(summerDressesPage.FIRST_PRODUCT_PRICE);
         // Output to console if all displayed items contain yellow color in color picker:
-        System.out.println("All items contain yellow:   " + summerDressesPage.checkIfAllItemsHaveColor("Yellow"));
+        System.out.printf("Summer dresses page: All items contains %s: %s;\n", color, summerDressesPage.checkIfAllItemsHaveColor(color));
 
-        // Flow over first product, wait until "add to cart" button show up and click it:
-        PopUp popUp = summerDressesPage.goToPopUp(summerDressesPage.FIRST_PRODUCTS_IMAGE, summerDressesPage.FIRST_PRODUCTS_ADD);
-        // Checks and output to console if PopUp layer is visible:
-        System.out.println("Layer is visible:           " + popUp.checkLayerVisible(PopUp.POPUP_LAYER));
-        // Wait until price element is visible, get price and write it to double var:
-        baseFunc.waitForElementToBeClickable(PopUp.POPUP_LAYER_PRODUCT_PRICE);
-        System.out.printf("First item price is: %s\n", baseFunc.getItemsDigit(PopUp.POPUP_LAYER_PRODUCT_PRICE));
-        double price2 = baseFunc.getItemsDigit(PopUp.POPUP_LAYER_PRODUCT_PRICE);
-        // Assert dresses page and popup layer displayed price values of item:
-        Assertions.assertEquals(price, price2, "Prices are not equal!");
-        // close pop up layer:
-        popUp.closePopUpLayer();
+        // Flow over first product, wait until "more" button show up and click it:
+        ProductPage productPage = summerDressesPage.goToProductPage(0);
 
-        ProductPage productPage = summerDressesPage.goToProductPage();
-        System.out.println("Product page contain color: " + productPage.isColorPresent());
-        SummerDressesPage summerDressesPage1 = productPage.goToSummerDressesPage();
+        Assertions.assertEquals(price, baseFunc.getItemPrice(productPage.PRODUCT_PRICE), "Prices are not equal!");
+        System.out.printf("Product page: Product item contains %s color: %s\n", color, productPage.isColorPresent());
+        baseFunc.browser.navigate().back();
 
-        DecimalFormat df = new DecimalFormat("#.00");
+        summerDressesPage.addToCartAllDisplayedProductItems();
+        js.executeScript("arguments[0].scrollIntoView();", baseFunc.browser.findElement(CART));
 
-        float price3 = (float)baseFunc.getItemsDigit(summerDressesPage.SECOND_PRODUCT_PRICE);
-        System.out.println("Second item price is: " + df.format(price3));
-        summerDressesPage1.goToPopUp(summerDressesPage1.SECOND_PRODUCTS_IMAGE, summerDressesPage1.SECOND_PRODUCTS_ADD);
-        baseFunc.waitForElementToBeVisible(PopUp.POPUP_LAYER_PRODUCT_PRICE);
-        float result = (float)(price + price3);
+        WebElement cart = baseFunc.getElement(CART);
+        baseFunc.moveToElement(cart).perform();
+        baseFunc.waitForElementToBeVisible(CART_TOTAL);
 
-        float totalPrice = Float.parseFloat(baseFunc.getElement(summerDressesPage.TOTAL_PRICE).getText().substring(1));
-        System.out.printf("Total price is: %s\n" +
-                "Calc total:     %s", Float.parseFloat(baseFunc.browser.findElement(summerDressesPage.TOTAL_PRICE).getText().substring(1)), result);
+        double totalPriceInCart = baseFunc.getItemPrice(CART_TOTAL);
 
-        Assertions.assertEquals(totalPrice, result,"Are not equal!");
-
+        System.out.printf("Total price: %s\n", (totalPriceInCart - 2.00));
+        System.out.println("Total item sum: " + summerDressesPage.getDisplayedProductItemSum());
+        Assertions.assertEquals(totalPriceInCart - 2.00, summerDressesPage.getDisplayedProductItemSum(), "Different values!!!!");
     }
 
-    /*@AfterEach
-    public void closeBrowser() {
+    @AfterEach
+    void closeBrowser() {
         baseFunc.closeBrowser();
-    }*/
-
+    }
 }
