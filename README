@@ -1,0 +1,12 @@
+THIRD HOMEWORK
+=============================================================================
+In order to complete the third homework I needed to complite following steps:
+Go to http://automationpractice.com;
+Select summer dresses;
+Check if all dresses contain yellow color in their color picker;
+Check if dispalyed item count is equal to web page counter;
+Compare first items price with its price in product description page;
+Check if yellow color is present in first product description page;
+Navigate back to summer dresses page;
+Add two products to cart;
+Check if sum is calculated correctly.
