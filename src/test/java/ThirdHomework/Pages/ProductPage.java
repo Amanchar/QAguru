@@ -3,6 +3,7 @@ package ThirdHomework.Pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductPage {
@@ -16,14 +17,15 @@ public class ProductPage {
         this.baseFunc = baseFunc;
     }
 
-    public boolean isColorPresent() {
+    public boolean isColorPresent(String colorToCheck) {
         List<WebElement> items = baseFunc.getElements(COLOR_PICK_LIST);
-        for (WebElement item : items) {
-            if (item.getAttribute("style").contains("background: rgb(241, 196, 15);")) {
-                return true;
-            }
+        List<String> itemStrings = new ArrayList<String>();
+        for (WebElement item : items
+        ) {
+            itemStrings.add(item.getAttribute("style").substring(item.getAttribute("style").indexOf('('), item.getAttribute("style").length() - 1));
         }
-        return false;
+        baseFunc.colorParser(itemStrings);
+        return itemStrings.contains(colorToCheck);
     }
 
     public SummerDressesPage goToSummerDressesPage() {

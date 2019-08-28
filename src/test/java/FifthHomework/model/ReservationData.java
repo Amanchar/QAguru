@@ -1,17 +1,17 @@
 package FifthHomework.model;
 
 public class ReservationData {
-    public Integer id;
-    public String name;
-    public String surname;
-    public String afrom;
-    public String ato;
-    public Integer bugs;
-    public String discount;
-    public Integer children;
-    public Integer flight;
-    public Integer adults;
-    public Integer seat;
+    private Integer id;
+    private String name;
+    private String surname;
+    private String afrom;
+    private String ato;
+    private Integer bugs;
+    private String discount;
+    private Integer children;
+    private String flight;
+    private Integer adults;
+    private Integer seat;
 
     public Integer getId() {
         return id;
@@ -77,11 +77,11 @@ public class ReservationData {
         this.children = children;
     }
 
-    public Integer getFlight() {
+    public String getFlight() {
         return flight;
     }
 
-    public void setFlight(Integer flight) {
+    public void setFlight(String flight) {
         this.flight = flight;
     }
 

@@ -1,37 +1,44 @@
-/*
+
 package FifthHomework;
 
+import FifthHomework.model.ReservationData;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-//import model.Response;
-import org.junit.jupiter.api.Assertions;
-import org.openqa.selenium.By;
-//import pages.*;
+import FifthHomework.model.Response;
 
+import org.junit.jupiter.api.Assertions;
+
+import org.openqa.selenium.By;
+import FifthHomework.pages.*;
+
+
+import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 public class reservationTicketStepDefs {
+    private ReservationRequester reservationRequester = new ReservationRequester();
+    private Response response;
 
-    public final By REGISTRATION_FORM = By.xpath(".//div[@class='fullForm']");
+    private final By REGISTRATION_FORM = By.xpath(".//div[@class='fullForm']");
     private final By SEAT_SELECTOR = By.id("seats");
 
-    //private BaseFunc baseFunc = new BaseFunc();
-    private final String HOME_PAGE = "http://qaguru.lv:8090/tickets/";
+    private BaseFunc baseFunc = new BaseFunc();
+    private final String HOME_PAGE = "http://qaguru.lv:8089/tickets/";
     private String departure_city;
     private String destination_city;
     private Integer seatNumber;
 
     private UserData user = new UserData();
-    //private HomePage homePage;
+    public HomePage homePage;
+    private FinalPage finalPage = new FinalPage(baseFunc);
 
-    String reservationNumber;
+    private String reservationNumber;
 
-    //RegistrationPage registrationPage = new RegistrationPage(baseFunc);
-    //SeatPage seatPage = new SeatPage(baseFunc);
+    RegistrationPage registrationPage = new RegistrationPage(baseFunc);
+    SeatPage seatPage = new SeatPage(baseFunc);
 
-    private ReservationRequester requester = new ReservationRequester();
-    //private Response response;
 
     @Given("departure airport (.*)")
     public void set_departure_airport(String departure_city) {
@@ -60,25 +67,26 @@ public class reservationTicketStepDefs {
         this.seatNumber = seatNumber;
     }
 
-    */
-/*@Given("we're on a home page")
+
+    @Given("we're on a home page")
     public void home_page() {
         baseFunc.goToPage(HOME_PAGE);
-        homePage = new HomePage(baseFunc);
-    }*//*
 
+    }
 
-    */
-/*@When("we're selecting airports")
+    @When("we're selecting airports")
     public void selecting_airport() {
+        HomePage homePage = new HomePage(baseFunc);
         homePage.selectDepartureAirport("RIX");
         homePage.selectArrivalAirport("MEL");
-    }*//*
+    }
 
 
     @When("we're pressing GoGoGo button")
     public void pressing_button() {
-        homePage.goToRegistrationPage();
+        HomePage homePage = new HomePage(baseFunc);
+
+        RegistrationPage registrationPage = homePage.goToRegistrationPage();
     }
 
     @Then("registration page appears")
@@ -93,10 +101,15 @@ public class reservationTicketStepDefs {
         registrationPage.fillNameField(user.getName());
         registrationPage.fillSurnameField(user.getSurname());
         registrationPage.fillDiscountField(user.getDiscountCode());
-        registrationPage.fillPassangersField(user.getTravellerCount());
-        registrationPage.fillChildrensField(user.getChildrenCount());
+        registrationPage.fillPassengersField(user.getTravellerCount());
+        registrationPage.fillChildesField(user.getChildrenCount());
         registrationPage.fillLuggageField(user.getLuggage());
-        registrationPage.selectFlightDate(user.getNextFlight());
+        registrationPage.selectFlightDate("13");
+        /*Select dropdown = new Select(baseFunc.browser.findElement(By.id("flight")));
+        dropdown.selectByValue("13");*/
+        // registrationPage.selectFlightDate(user.setNextFlight(baseFunc.browser.findElement()););
+
+        // registrationPage.selectFlightDate(user.getNextFlight());
     }
 
     @When("we're pressing get price button")
@@ -106,7 +119,7 @@ public class reservationTicketStepDefs {
 
     @Then("our price will be (.*) eur")
     public void price_check(Integer price) {
-        reservationNumber = registrationPage.getReservationNumber();
+        registrationPage.getPrice();
         Assertions.assertEquals(Integer.valueOf(registrationPage.getPrice()), price, "No match!!!");
     }
 
@@ -134,14 +147,12 @@ public class reservationTicketStepDefs {
 
     @Then("successful registration page appears")
     public void registration_page_appears() {
-        FinalPage finalPage = new FinalPage(baseFunc);
         finalPage.checkFinalPage();
     }
 
     @When("we're requesting reservation list")
-    public void requesting_registration_list() {
-
-
+    public void requesting_registration_list() throws IOException {
+        response = (Response) reservationRequester.getReservationData();
     }
 
     @Then("we can see our reservation in the list")
@@ -160,4 +171,5 @@ public class reservationTicketStepDefs {
     public void checking_if_reservation_deleted() {
     }
 }
-*/
+
+

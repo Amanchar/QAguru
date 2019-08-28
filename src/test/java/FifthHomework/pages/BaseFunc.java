@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
 
 public class BaseFunc {
-    private WebDriver browser;
+    public WebDriver browser;
 
     public BaseFunc() {
         System.setProperty("webdriver.chrome.driver", "c:/chromedriver.exe");

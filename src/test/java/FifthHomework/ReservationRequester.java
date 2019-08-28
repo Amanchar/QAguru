@@ -1,19 +1,20 @@
 package FifthHomework;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-//import model.Response;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 public class ReservationRequester {
 
-    private final String url = "http://www.qaguru.lv:8090/tickets/getReservations.php";
+    private final String GET_RESERVATIONS = "http://www.qaguru.lv:8089/tickets/getReservations.php";
 
-    /*public List<Response> getReservasionData() throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        List<Response> myObjects = Arrays.asList(mapper.readValue(url,Response.class));
-        return myObjects;
-    }*/
+    RestTemplate restTemplate = new RestTemplate();
+
+    String getReservationData() throws IOException {
+        String response = restTemplate.getForEntity(GET_RESERVATIONS, String.class).getBody();
+        System.out.println(response);
+        /*ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(response, Response.class);*/
+        return response;
+    }
 }

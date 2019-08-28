@@ -16,7 +16,7 @@ public class MainPage {
 
     public SummerDressesPage goToSummerDressesPage() {
         WebElement linkDresses = baseFunc.getElement(DRESSES);
-        WebElement linkSummerDresses = baseFunc.getElement(EVENING_DRESSES);
+        WebElement linkSummerDresses = baseFunc.getElement(SUMMER_DRESSES);
 
         baseFunc.moveToElement(linkDresses).perform();
         baseFunc.waitForElementToBeClickable(SUMMER_DRESSES);

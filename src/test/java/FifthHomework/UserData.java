@@ -34,24 +34,24 @@ public class UserData {
         this.discountCode = discountCode;
     }
 
-    public Integer getTravellerCount() {
-        return travellerCount;
+    public String getTravellerCount() {
+        return travellerCount.toString();
     }
 
     public void setTravellerCount(Integer travellerCount) {
         this.travellerCount = travellerCount;
     }
 
-    public Integer getChildrenCount() {
-        return childrenCount;
+    public String getChildrenCount() {
+        return childrenCount.toString();
     }
 
     public void setChildrenCount(Integer childrenCount) {
         this.childrenCount = childrenCount;
     }
 
-    public Integer getLuggage() {
-        return luggage;
+    public String getLuggage() {
+        return luggage.toString();
     }
 
     public void setLuggage(Integer luggage) {

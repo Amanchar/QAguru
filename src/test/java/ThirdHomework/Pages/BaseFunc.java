@@ -10,6 +10,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -39,7 +41,7 @@ public class BaseFunc {
         return browser.findElement(locator);
     }
 
-    public List<WebElement> getElements(By locator) {
+    List<WebElement> getElements(By locator) {
         Assertions.assertFalse(browser.findElements(locator).isEmpty(), "No elements!");
         return browser.findElements(locator);
     }
@@ -67,6 +69,14 @@ public class BaseFunc {
     public double getItemPrice(By locator) {
         WebElement el = browser.findElement(locator);
         return Double.parseDouble(el.getText().substring(1));
+    }
+
+    void colorParser(List strings) {
+        List<String> oldValues = Arrays.asList("(255, 255, 255)", "(67, 74, 84)", "(243, 156, 17)", "(93, 156, 236)", "(160, 212, 104)", "(241, 196, 15)");
+        List<String> newValues = Arrays.asList("White", "Black", "Orange", "Blue", "Green", "Yellow");
+        for (int i = 0; i < oldValues.size(); i++) {
+            Collections.replaceAll(strings, oldValues.get(i), newValues.get(i));
+        }
     }
 
     double roundValue(Double value) {

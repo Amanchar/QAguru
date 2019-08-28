@@ -8,21 +8,19 @@ import org.openqa.selenium.support.ui.Select;
 import java.util.List;
 
 public class RegistrationPage {
-    BaseFunc baseFunc;
+    private BaseFunc baseFunc;
 
     private final By NAME = By.id("name");
     private final By SURNAME = By.id("surname");
     private final By DISCOUNT = By.id("discount");
-    private final By PASSANGERS = By.id("adults");
+    private final By PASSENGERS = By.id("adults");
     private final By CHILDRENS = By.id("children");
-    private final By LUGGAGE = By.id("bags");
+    private final By LUGGAGE = By.id("bugs");
     private final By FLIGHT_DATE = By.id("flight");
     private final By GET_PRICE = By.xpath(".//span[text() = 'Get Price']");
     private final By RESPONSE = By.id("response");
 
     private final By BOOK_BUTTON = By.id("book2");
-
-
 
     public RegistrationPage(BaseFunc baseFunc) {
         this.baseFunc = baseFunc;
@@ -48,21 +46,17 @@ public class RegistrationPage {
 
     }
 
-    public void fillPassangersField(String passangers) {
-        baseFunc.getElement(PASSANGERS).sendKeys(passangers);
-
+    public void fillPassengersField(String passengers) {
+        baseFunc.getElement(PASSENGERS).sendKeys(passengers);
     }
 
-    public void fillChildrensField(String childrens) {
-        baseFunc.getElement(CHILDRENS).sendKeys(childrens);
-
+    public void fillChildesField(String childes) {
+        baseFunc.getElement(CHILDRENS).sendKeys(childes);
     }
 
     public void fillLuggageField(String luggage) {
-        baseFunc.getElement(CHILDRENS).sendKeys(luggage);
-
+        baseFunc.getElement(LUGGAGE).sendKeys(luggage);
     }
-
 
     public void selectFlightDate(String flightDate) {
         Select select = new Select(baseFunc.getElement(FLIGHT_DATE));
@@ -74,11 +68,7 @@ public class RegistrationPage {
     }
 
     public String getPrice() {
-        WebElement finalPriceElement = baseFunc.getElement(RESPONSE);
-        String finalPriceText = finalPriceElement.getText();
-        finalPriceText.substring(finalPriceText.indexOf("for ") + 1, finalPriceText.indexOf(" EUR"));
-
-        return finalPriceText;
+        return baseFunc.getElement(RESPONSE).getText().replaceAll("\\D+", "");
     }
 
     public String getReservationNumber() {

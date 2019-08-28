@@ -1,10 +1,12 @@
 package FifthHomework.model;
 
-public class Response {
-    private ReservationData reservationData;
+import java.util.List;
 
-    public ReservationData getReservationData() {
-        return reservationData;
+public class Response {
+    private List<ReservationData> reservationDataList;
+
+    public List<ReservationData> getReservationData() {
+        return reservationDataList;
     }
 
 }
