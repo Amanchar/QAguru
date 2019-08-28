@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class reservationTicketStepDefs {
     private ReservationRequester reservationRequester = new ReservationRequester();
-    private Response response;
+    private Response response = new Response();
 
     private final By REGISTRATION_FORM = By.xpath(".//div[@class='fullForm']");
     private final By SEAT_SELECTOR = By.id("seats");
@@ -152,7 +152,7 @@ public class reservationTicketStepDefs {
 
     @When("we're requesting reservation list")
     public void requesting_registration_list() throws IOException {
-        response = (Response) reservationRequester.getReservationData();
+        response = reservationRequester.getReservationData();
     }
 
     @Then("we can see our reservation in the list")

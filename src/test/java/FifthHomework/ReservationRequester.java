@@ -1,5 +1,8 @@
 package FifthHomework;
 
+import FifthHomework.model.ReservationData;
+import FifthHomework.model.Response;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -10,11 +13,11 @@ public class ReservationRequester {
 
     RestTemplate restTemplate = new RestTemplate();
 
-    String getReservationData() throws IOException {
+    public Response getReservationData() throws IOException {
         String response = restTemplate.getForEntity(GET_RESERVATIONS, String.class).getBody();
         System.out.println(response);
-        /*ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(response, Response.class);*/
-        return response;
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        return objectMapper.readValue(response, Response.class);
     }
 }
